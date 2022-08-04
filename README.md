@@ -1,1 +1,1 @@
-Some Carbon Black Cloud examples
+Carbon Black Cloud examples
