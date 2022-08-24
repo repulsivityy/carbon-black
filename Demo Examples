@@ -11,6 +11,8 @@ process_name:powershell.exe AND (process_cmdline:"-Enc" OR process_cmdline:"hidd
 # Check for possible lateral movement with powershell 
 process_name:powershell.exe AND process_cmdline:IEX AND netconn_count:[1 TO *] AND netconn_ipv4:192.168.230.0/24
 
+# Check for persistence by modifying registry keys
+(regmod_name:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\\*)
 
 ################
 Live Response
@@ -21,6 +23,9 @@ execfg msg * SecOps team needs to take control. Please save all your work now. F
 
 # check powershell execution policy
 execfg powershell get-executionpolicy
+
+# if persistence seen (from above)
+reg query HKLM\Software\Microsoft\Windows\CurrentVersion\Run
 
 # Download files for further investigations
 cd C:\Users\repulsivityy\Desktop
