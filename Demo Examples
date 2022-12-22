@@ -14,6 +14,9 @@ process_name:powershell.exe AND process_cmdline:IEX AND netconn_count:[1 TO *] A
 # Check for persistence by modifying registry keys
 (regmod_name:HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run\\*)
 
+# Check for potential data exfiltration by not listed processes
+(parent_effective_reputation:Not_Listed OR process_reputation:NOT_Listed) AND (netconn_count:[1 TO *] OR netconn_bytes_sent:[1 TO *])
+
 ################
 Live Response
 ################
